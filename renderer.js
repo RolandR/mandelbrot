@@ -7,7 +7,8 @@ function Renderer(canvasId){
 	var shaderProgram;
 	var size;
 
-	var canvasSizeAttr;
+	var zoomAttr;
+	var zoomOriginAttr;
 
 	var lastHeight = canvas.height;
 	var lastWidth = canvas.width;
@@ -94,19 +95,16 @@ function Renderer(canvasId){
 		// Enable the attribute
 		gl.enableVertexAttribArray(coord);
 
-		canvasSizeAttr = gl.getUniformLocation(shaderProgram, "canvasSize");
-		textureSizeAttr = gl.getUniformLocation(shaderProgram, "textureSize");
-		texturrSizeAttr = gl.getUniformLocation(shaderProgram, "texturrSize");
-		onePixelAttr = gl.getUniformLocation(shaderProgram, "onePixel");
+		zoomAttr = gl.getUniformLocation(shaderProgram, "zoom");
+		zoomOriginAttr = gl.getUniformLocation(shaderProgram, "zoomOrigin");
+		
 
 	}
 
-	function render(world){
+	function render(zoom, zoomOrigin){
 
-		gl.uniform2f(canvasSizeAttr, canvas.width, canvas.height);
-		gl.uniform2f(textureSizeAttr, lastWidth, lastHeight);
-		gl.uniform2f(texturrSizeAttr, lastWidth, lastHeight);
-		gl.uniform2f(onePixelAttr, 1/lastWidth, 1/lastHeight);
+		gl.uniform1f(zoomAttr, zoom);
+		gl.uniform2f(zoomOriginAttr, zoomOrigin[0], zoomOrigin[1]);
 
 		if(lastHeight != canvas.height || lastWidth != canvas.width){
 			gl.viewport(0, 0, canvas.width, canvas.height);
