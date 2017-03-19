@@ -24,8 +24,6 @@ function init(){
 
 
 	canvas.addEventListener("wheel", function(e){
-		console.log(e);
-
 		
 		if(e.deltaY > 0){
 
@@ -47,8 +45,6 @@ function init(){
 		
 			zoom = zoom / 2;
 		}
-
-		console.log(zoomOrigin);
 
 		renderer.render(zoom, zoomOrigin);
 	});

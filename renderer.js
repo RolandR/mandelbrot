@@ -97,6 +97,7 @@ function Renderer(canvasId){
 
 		zoomAttr = gl.getUniformLocation(shaderProgram, "zoom");
 		zoomOriginAttr = gl.getUniformLocation(shaderProgram, "zoomOrigin");
+		onePixelAttr = gl.getUniformLocation(shaderProgram, "onePixel");
 		
 
 	}
@@ -105,6 +106,7 @@ function Renderer(canvasId){
 
 		gl.uniform1f(zoomAttr, zoom);
 		gl.uniform2f(zoomOriginAttr, zoomOrigin[0], zoomOrigin[1]);
+		gl.uniform2f(onePixelAttr, 3/canvas.width*zoom, 2/canvas.height*zoom);
 
 		if(lastHeight != canvas.height || lastWidth != canvas.width){
 			gl.viewport(0, 0, canvas.width, canvas.height);

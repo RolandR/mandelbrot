@@ -1,5 +1,7 @@
 var vertexShader = `
 
+precision highp float;
+
 attribute vec2 coordinates;
 
 uniform float zoom;
