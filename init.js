@@ -22,32 +22,53 @@ function init(){
 
 	renderer.render(zoom, zoomOrigin);
 
+	canvas.addEventListener("dblclick", function(e){
+		if(e.ctrlKey){
+
+			zoomOut(e.layerX, e.layerY);
+			
+		} else {
+			
+			zoomIn(e.layerX, e.layerY);
+		}
+	});
+
 
 	canvas.addEventListener("wheel", function(e){
 		
 		if(e.deltaY > 0){
 
-			zoomOrigin[0] -= ((e.layerX/canvas.width)*2-1);
-			zoomOrigin[1] -= ((e.layerY/canvas.height)*2-1);
-			
-			zoomOrigin[0] = zoomOrigin[0]/2;
-			zoomOrigin[1] = zoomOrigin[1]/2;
-			
-			zoom = zoom * 2;
+			zoomOut(e.layerX, e.layerY);
 			
 		} else if(e.deltaY < 0){
 			
-			zoomOrigin[0] = zoomOrigin[0]*2;
-			zoomOrigin[1] = zoomOrigin[1]*2;
-
-			zoomOrigin[0] += ((e.layerX/canvas.width)*2-1);
-			zoomOrigin[1] += ((e.layerY/canvas.height)*2-1);
-		
-			zoom = zoom / 2;
+			zoomIn(e.layerX, e.layerY);
 		}
+	});
+
+	function zoomIn(x, y){
+		zoomOrigin[0] = zoomOrigin[0]*2;
+		zoomOrigin[1] = zoomOrigin[1]*2;
+
+		zoomOrigin[0] += ((x/canvas.width)*2-1);
+		zoomOrigin[1] += ((y/canvas.height)*2-1);
+	
+		zoom = zoom / 2;
 
 		renderer.render(zoom, zoomOrigin);
-	});
+	}
+
+	function zoomOut(x, y){
+		zoomOrigin[0] -= ((x/canvas.width)*2-1);
+		zoomOrigin[1] -= ((y/canvas.height)*2-1);
+		
+		zoomOrigin[0] = zoomOrigin[0]/2;
+		zoomOrigin[1] = zoomOrigin[1]/2;
+		
+		zoom = zoom * 2;
+
+		renderer.render(zoom, zoomOrigin);
+	}
 
 	canvas.addEventListener("mousedown", function(e){
 		lastPosition = [e.clientX, e.clientY];
