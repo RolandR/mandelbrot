@@ -15,15 +15,11 @@ vec3 hsv2rgb(vec3 c)
 }
 
 vec3 mandelbrot(vec2 pos){
-	
-	bool inside = true;
 
-	vec3 color = vec3(1.0, 1.0, 1.0);
+	vec3 color = vec3(0.0, 0.0, 0.0);
 
 	vec2 z = vec2(0.0, 0.0);
 	vec2 nextZ = vec2(0.0, 0.0);
-
-	int divergence = 0;
 
 	for(int count = 0; count < 4096; count++){
 
@@ -33,18 +29,16 @@ vec3 mandelbrot(vec2 pos){
 		z = nextZ;
 
 		if(dot(pow(z, vec2(2.0, 2.0)), vec2(1)) > 4.0){
-			inside = false;
-			divergence = count;
+			
+			color = hsv2rgb(vec3(
+				(float(count) - log(log(dot(pow(z, vec2(2.0, 2.0)), vec2(1.0))) / log(4.0)) / log(2.0))/4096.0 * 50.0,
+				1.0,
+				1.0
+			));
+			
 			break;
 		}
 		
-	}
-
-	if(inside){
-		color = vec3(0.0, 0.0, 0.0);
-	} else {
-		//color.gb = vec2(1.0 - float(divergence) / 4096.0);
-		color = hsv2rgb(vec3(float(divergence*50) / 4096.0, 1.0, 1.0));
 	}
 
 	return color;
