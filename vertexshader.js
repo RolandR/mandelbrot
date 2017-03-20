@@ -6,6 +6,7 @@ attribute vec2 coordinates;
 
 uniform float zoom;
 uniform vec2 zoomOrigin;
+uniform float aspect;
 
 varying vec2 texCoord;
 
@@ -18,7 +19,7 @@ void main(void){
 	texCoord.xy += zoomOrigin.xy;
 	texCoord.xy *= zoom;
 	
-	texCoord.x = texCoord.x * 1.5 - 0.5;
+	texCoord.x = texCoord.x * aspect - 0.5;
 	
 	gl_Position = vec4(coordinates, 1.0, 1.0);
 

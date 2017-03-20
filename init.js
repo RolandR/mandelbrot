@@ -7,9 +7,11 @@ function init(){
 
 	var width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 	var height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+	
+	canvas.width = width;
+	canvas.height = height;
 
-	canvas.width = Math.min(width, height*1.5);
-	canvas.height = Math.min((width*2)/3, height);
+	var aspect = width/height;
 	
 	
 	var renderer = new Renderer('renderCanvas');
@@ -82,7 +84,7 @@ function init(){
 			lastPosition = [e.clientX, e.clientY];
 
 			zoomOrigin[0] -= ((deltaX/canvas.width)*2);
-			zoomOrigin[1] -= ((deltaY/canvas.width)*3);
+			zoomOrigin[1] -= ((deltaY/canvas.width)*2*aspect);
 
 			renderer.render(zoom, zoomOrigin);
 		}
@@ -93,6 +95,20 @@ function init(){
 			dragging = false;
 		}
 	});
+
+	window.addEventListener("resize", resize);
+
+	function resize(){
+		width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+		height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+		
+		canvas.width = width;
+		canvas.height = height;
+
+		aspect = width/height;
+
+		renderer.render(zoom, zoomOrigin);
+	}
 	
 }
 
